@@ -62,3 +62,19 @@ resource "aws_subnet" "subnet_1_oregon" {
   vpc_id     = aws_vpc.vpc_master_oregon.id
   cidr_block = "192.168.1.0/24"
 }
+
+#Create VPC Peering Connection from us-east-1
+resource "aws_vpc_peering_connection" "useast1-uswest2" {
+    provider = aws.region-master
+    vpc_id = aws_vpc.vpc_master.id
+    peer_vpc_id = aws_vpc.vpc_master_oregon.id
+    peer_region = var.region-worker
+  
+}
+
+#Create an Accepter VPC Peering request in us-west-2 from us-east-1
+resource "aws_vpc_peering_connection_accepter" "accept_peering" {
+  provider = aws.region-worker
+  vpc_peering_connection_id = aws_vpc_peering_connection.useast1-uswest2.id
+  auto_accept = true
+}
