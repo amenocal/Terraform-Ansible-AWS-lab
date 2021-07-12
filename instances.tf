@@ -15,13 +15,13 @@ data "aws_ssm_parameter" "linuxAmiOregon" {
 resource "aws_key_pair" "master-key" {
   provider   = aws.region-master
   key_name   = "jenkins"
-  public_key = file("~/.ssh/terraform-lab.pub")
+  public_key = file("~/.ssh/id_rsa.pub")
 }
 
 resource "aws_key_pair" "worker-key" {
   provider   = aws.region-worker
   key_name   = "jenkins"
-  public_key = file("~/.ssh/terraform-lab.pub")
+  public_key = file("~/.ssh/id_rsa.pub")
 }
 
 #Create EC2 Instances with Jenkins Main and Worker
@@ -49,7 +49,6 @@ resource "aws_instance" "jenkins-master" {
     EOF
 
   }
-  
 }
 
 resource "aws_instance" "jenkins-worker-oregon" {
@@ -76,6 +75,5 @@ resource "aws_instance" "jenkins-worker-oregon" {
     EOF
 
   }
-
 
 }
