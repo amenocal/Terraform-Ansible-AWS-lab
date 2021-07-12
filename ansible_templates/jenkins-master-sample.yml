@@ -1,0 +1,9 @@
+---
+- hosts: "{{ passed_in_hosts }}"
+  become: yes
+  remote_user: ec2-user
+  tasks:
+    - name: install Git client
+      yum:
+        name: git
+        state: present
